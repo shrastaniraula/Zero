@@ -283,7 +283,7 @@ String _getTitleByIndex(int index) {
     case 1:
       return 'Search';
     case 2:
-      return 'People';
+      return 'Test Your Code';
     case 3:
       return 'Favorites';
     case 4:
