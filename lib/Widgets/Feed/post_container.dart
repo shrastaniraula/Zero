@@ -25,14 +25,17 @@ class _PostContainerState extends State<PostContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 4, bottom: 4),
+      margin: const EdgeInsets.all(8),
       width: double.maxFinite,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: const Color.fromARGB(255, 96, 106, 114).withOpacity(0.5),
-        ),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+              color: AppTheme.grey.withOpacity(0.2),
+              offset: const Offset(1, 1),
+              blurRadius: 5.0),
+        ],
       ),
       child: Column(
         children: [

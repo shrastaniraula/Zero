@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zero/Global/colors.dart';
 import 'package:zero/Model/post.dart';
 import 'package:zero/Widgets/Feed/create_post_container.dart';
 import 'package:zero/Widgets/Feed/post_container.dart';
@@ -71,48 +72,69 @@ class _FeedScreenState extends State<FeedScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth < 600) {
-          // Small screen layout
-          return Container(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              children: [
-                CreatePostContainer(),
-                Row(
-                  children: [
-                    Text(
-                      "Feed",
-                      style: GoogleFonts.roboto(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: -0.1,
-                      ),
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: dummyPosts.length,
-                    itemBuilder: (context, index) {
-                      return PostContainer(post: dummyPosts[index]);
-                    },
-                  ),
-                )
-              ],
-            ),
-          );
-        } else {
-          // Large screen layout
-          return Row(
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 8, right: 16, left: 16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: AppTheme.grey.withOpacity(0.2),
+                  offset: const Offset(1, 1),
+                  blurRadius: 5.0),
+            ],
+          ),
+          child: Row(
             children: [
-              Expanded(
-                child: Container(
+              Text("Welcome back, Hensal!"),
+              Expanded(child: SizedBox()),
+              Container(
+                width: MediaQuery.sizeOf(context).width * 0.3,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                ),
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: TextFormField(
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Search',
+                    prefixIcon: IconButton(
+                      icon: const Icon(Icons.search_sharp),
+                      onPressed: () {},
+                    ),
+                    // suffixIcon: SizedBox(
+                    //   width: 24, // Set the desired width
+                    //   height: 24, // Set the desired height
+                    //   child: Image.asset("assets/img/search_logo.png"),
+                    // ),
+                  ),
+                ),
+              ),
+              Container(
+                child: Row(children: [Text("Hensal Rai"), CircleAvatar()]),
+              )
+            ],
+          ),
+        ),
+        Expanded(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              if (constraints.maxWidth < 600) {
+                // Small screen layout
+                return Container(
                   padding: const EdgeInsets.all(8),
                   child: Column(
                     children: [
-                      CreatePostContainer(),
+                      Container(
+                        width: double
+                            .infinity, // or provide a specific width value
+                        child: const CreatePostContainer(),
+                      ),
                       Row(
                         children: [
                           Text(
@@ -135,16 +157,52 @@ class _FeedScreenState extends State<FeedScreen> {
                       )
                     ],
                   ),
-                ),
-              ),
-              Container(
-                color: Colors.black,
-                width: MediaQuery.of(context).size.width * 0.2,
-              )
-            ],
-          );
-        }
-      },
+                );
+              } else {
+                // Large screen layout
+                return Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        child: Column(
+                          children: [
+                            const CreatePostContainer(),
+                            Row(
+                              children: [
+                                Text(
+                                  "Feed",
+                                  style: GoogleFonts.roboto(
+                                    fontSize: 24.0,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: -0.1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Expanded(
+                              child: ListView.builder(
+                                itemCount: dummyPosts.length,
+                                itemBuilder: (context, index) {
+                                  return PostContainer(post: dummyPosts[index]);
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(),
+                      width: MediaQuery.of(context).size.width * 0.2,
+                    )
+                  ],
+                );
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 }

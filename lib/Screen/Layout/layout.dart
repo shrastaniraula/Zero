@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zero/Global/colors.dart';
 import 'package:zero/Screen/Feed/feed_page.dart';
 import 'package:flutter_side_menu/flutter_side_menu.dart';
 import 'package:go_router/go_router.dart';
@@ -59,6 +60,7 @@ class AppScaffold extends StatelessWidget {
     Color unSelectedColor = const Color.fromARGB(255, 142, 142, 142);
     final selectedIndex = _calculateSelectedIndex(context);
     return Scaffold(
+      backgroundColor: AppTheme.background,
       body: Row(
         children: [
           SideMenu(
