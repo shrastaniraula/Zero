@@ -4,6 +4,7 @@ import 'package:zero/Screen/Calculator/calculator_page.dart';
 import 'package:zero/Screen/Feed/feed_page.dart';
 import 'package:flutter_side_menu/flutter_side_menu.dart';
 import 'package:go_router/go_router.dart';
+import 'package:zero/Screen/Guildelines/guideline_tab.dart';
 
 class Layout extends StatefulWidget {
   const Layout({super.key});
@@ -31,7 +32,7 @@ class _LayoutState extends State<Layout> {
           ),
           GoRoute(
             path: '/guidline',
-            builder: (context, state) => const Setting(),
+            builder: (context, state) => Guide(),
           )
         ]),
   ]);
