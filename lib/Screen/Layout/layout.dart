@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zero/Global/colors.dart';
+import 'package:zero/Screen/Calculator/calculator_page.dart';
 import 'package:zero/Screen/Feed/feed_page.dart';
 import 'package:flutter_side_menu/flutter_side_menu.dart';
 import 'package:go_router/go_router.dart';
@@ -22,7 +23,7 @@ class _LayoutState extends State<Layout> {
           ),
           GoRoute(
             path: '/calculator',
-            builder: (context, state) => const Setting(),
+            builder: (context, state) => CarbonFootprintCalculator(),
           ),
           GoRoute(
             path: '/codelinter',
