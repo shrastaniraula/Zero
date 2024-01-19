@@ -133,7 +133,7 @@ class _FeedScreenState extends State<FeedScreen> {
                       Container(
                         width: double
                             .infinity, // or provide a specific width value
-                        child: const CreatePostContainer(),
+                        child: const CreatePostHeader(),
                       ),
                       Row(
                         children: [
@@ -167,7 +167,7 @@ class _FeedScreenState extends State<FeedScreen> {
                         padding: const EdgeInsets.all(8),
                         child: Column(
                           children: [
-                            const CreatePostContainer(),
+                            const CreatePostHeader(),
                             Row(
                               children: [
                                 Text(
