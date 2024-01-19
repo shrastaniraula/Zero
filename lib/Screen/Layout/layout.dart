@@ -10,6 +10,6 @@ class Layout extends StatefulWidget {
 class _LayoutState extends State<Layout> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return const Scaffold();
   }
 }
