@@ -9,6 +9,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  auto_size_text:
+    dependency: transitive
+    description:
+      name: auto_size_text
+      sha256: "3f5261cd3fb5f2a9ab4e2fc3fba84fd9fcaac8821f20a1d4e71f557521b22599"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
+  badges:
+    dependency: transitive
+    description:
+      name: badges
+      sha256: a7b6bbd60dce418df0db3058b53f9d083c22cdb5132a052145dc267494df0b84
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.2"
   bloc:
     dependency: "direct dev"
     description:
@@ -182,6 +198,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.17"
+  flutter_side_menu:
+    dependency: "direct main"
+    description:
+      name: flutter_side_menu
+      sha256: "939cbb4532e8972115d18b058a69dcb9727249d0694bb3fdef1c958dbf48ed83"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -193,15 +217,23 @@ packages:
     source: sdk
     version: "0.0.0"
   gap:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: gap
       sha256: f19387d4e32f849394758b91377f9153a1b41d79513ef7668c088c77dbc6955d
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  go_router:
+    dependency: "direct main"
+    description:
+      name: go_router
+      sha256: "3b40e751eaaa855179b416974d59d29669e750d2e50fcdb2b37f1cb0ca8c803a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "13.0.1"
   google_fonts:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: google_fonts
       sha256: f0b8d115a13ecf827013ec9fc883390ccc0e87a96ed5347a3114cac177ef18e8
@@ -304,6 +336,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  logging:
+    dependency: transitive
+    description:
+      name: logging
+      sha256: "623a88c9594aa774443aa3eb2d41807a48486b5613e67599fb4c41c0ad47c340"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   matcher:
     dependency: transitive
     description:
