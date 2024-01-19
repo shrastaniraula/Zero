@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 // import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zero/Bloc/Feed/feed_bloc.dart';
 import 'package:zero/Cubit/Page_state/page_state_cubit.dart';
 import 'package:zero/Global/colors.dart';
 import 'package:zero/Model/post.dart';
+import 'package:zero/Repository/Feed/feed_repository.dart';
+import 'package:zero/Screen/Auth/auth_page.dart';
 import 'package:zero/Screen/Feed/post_detail_layout.dart';
 import 'package:zero/Widgets/Feed/create_post_container.dart';
 import 'package:zero/Widgets/Feed/post_container.dart';
@@ -19,18 +23,25 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   late PageStateCubit _pageStateCubit;
-
+  late FeedBloc _feedBloc;
+  List<Post> futurePosts = [];
   @override
   void initState() {
     // Initialize PageStateCubit
     _pageStateCubit = PageStateCubit();
+    _feedBloc = FeedBloc(FeedRepository());
+    _feedBloc.add(FeedRequested());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _pageStateCubit,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<FeedBloc>.value(value: _feedBloc),
+        BlocProvider<PageStateCubit>.value(
+            value: _pageStateCubit), // Add this line
+      ],
       child: Column(
         children: [
           Container(
@@ -73,29 +84,32 @@ class _FeedScreenState extends State<FeedScreen> {
                         icon: const Icon(Icons.search_sharp),
                         onPressed: () {},
                       ),
-                      // suffixIcon: SizedBox(
-                      //   width: 24, // Set the desired width
-                      //   height: 24, // Set the desired height
-                      //   child: Image.asset("assets/img/search_logo.png"),
-                      // ),
                     ),
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.only(
-                      left: 10, right: 10, top: 4, bottom: 4),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: AppTheme.background),
-                  child: const Row(children: [
-                    Text("Hensal Rai"),
-                    Gap(8),
-                    CircleAvatar(
-                      radius: 15,
-                      backgroundImage:
-                          NetworkImage("https://thispersondoesnotexist.com/"),
-                    ),
-                  ]),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return AuthScreen();
+                    }));
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                        left: 10, right: 10, top: 4, bottom: 4),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: AppTheme.background),
+                    child: const Row(children: [
+                      Text("Hensal Rai"),
+                      Gap(8),
+                      CircleAvatar(
+                        radius: 15,
+                        backgroundImage:
+                            NetworkImage("https://thispersondoesnotexist.com/"),
+                      ),
+                    ]),
+                  ),
                 )
               ],
             ),
@@ -112,12 +126,12 @@ class _FeedScreenState extends State<FeedScreen> {
                 builder: (context, state) {
                   if (state is PageStateFeedView) {
                     // Display feed layout
-                    return _buildFeedLayout();
+                    return _postChecker();
                   } else if (state is PageStatePostView) {
                     // Display post detail layout
                     return _buildPostDetailLayout(state.selectedPost);
                   } else {
-                    return _buildFeedLayout();
+                    return _postChecker();
                   }
                 },
               ),
@@ -128,7 +142,44 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
-  Widget _buildFeedLayout() {
+  Widget _postChecker() {
+    return BlocProvider(
+      create: (context) => _feedBloc,
+      child: Container(
+        color: AppTheme.background,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: <Widget>[
+              BlocBuilder<FeedBloc, FeedState>(
+                builder: (context, state) {
+                  if (state is FeedLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is FeedLoaded) {
+                    futurePosts = state.posts;
+                    return _buildFeedLayout(
+                      posts: futurePosts,
+                    );
+                  } else {
+                    return const SizedBox(
+                      child: Text("gg"),
+                    );
+                  }
+                },
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).padding.bottom,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeedLayout({required List<Post> posts}) {
     if (MediaQuery.of(context).size.width < 600) {
       // Small screen layout
       return Container(
@@ -153,9 +204,9 @@ class _FeedScreenState extends State<FeedScreen> {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: dummyPosts.length,
+                itemCount: posts.length,
                 itemBuilder: (context, index) {
-                  return PostContainer(post: dummyPosts[index]);
+                  return PostContainer(post: posts[index]);
                 },
               ),
             )
@@ -186,9 +237,9 @@ class _FeedScreenState extends State<FeedScreen> {
                   ),
                   Expanded(
                     child: ListView.builder(
-                      itemCount: dummyPosts.length,
+                      itemCount: posts.length,
                       itemBuilder: (context, index) {
-                        return PostContainer(post: dummyPosts[index]);
+                        return PostContainer(post: posts[index]);
                       },
                     ),
                   )
@@ -210,64 +261,16 @@ class _FeedScreenState extends State<FeedScreen> {
       // Handle the case where there's no selected post
       return SizedBox(); // or throw an error, depending on your logic
     }
-
-    return PostDetailLayout(post: selectedPost);
+    if (MediaQuery.of(context).size.width < 600) {
+      return PostDetailLayout(post: selectedPost);
+    } else {
+      return Row(children: [
+        PostDetailLayout(post: selectedPost),
+        Container(
+          decoration: const BoxDecoration(),
+          width: MediaQuery.of(context).size.width * 0.2,
+        )
+      ]);
+    }
   }
 }
-
-List<Post> dummyPosts = [
-  Post(
-    id: "1",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    image: "https://source.unsplash.com/random/900×700/?programming",
-    upVote_count: 20,
-    downVote_count: 5,
-    createdAt: DateTime.now(),
-    updatedAt: DateTime.now(),
-    postBy: 'Hensal',
-  ),
-  Post(
-    id: "2",
-    description:
-        "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    image: "https://source.unsplash.com/random/900×700/?code",
-    upVote_count: 15,
-    downVote_count: 3,
-    createdAt: DateTime.now(),
-    updatedAt: DateTime.now(),
-    postBy: 'Hensal',
-  ),
-  Post(
-    id: "3",
-    description:
-        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-    image: "https://source.unsplash.com/random/900×700/?fruit",
-    upVote_count: 25,
-    downVote_count: 8,
-    createdAt: DateTime.now(),
-    updatedAt: DateTime.now(),
-    postBy: 'Hensal',
-  ),
-  Post(
-    id: "4",
-    description:
-        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.",
-    image: "https://source.unsplash.com/random/900×700/?java",
-    upVote_count: 18,
-    downVote_count: 4,
-    createdAt: DateTime.now(),
-    updatedAt: DateTime.now(),
-    postBy: 'Hensal',
-  ),
-  Post(
-    id: "5",
-    description:
-        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    image: "https://source.unsplash.com/random/900×700/?flower",
-    upVote_count: 30,
-    downVote_count: 10,
-    createdAt: DateTime.now(),
-    updatedAt: DateTime.now(),
-    postBy: 'Hensal Rai',
-  ),
-];

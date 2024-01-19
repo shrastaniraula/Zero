@@ -12,3 +12,7 @@ class PageStateInitialEvent extends PageStateEvent {}
 class PageStatePostViewEvent extends PageStateEvent {}
 
 class PageStateFeedViewEvent extends PageStateEvent {}
+
+class SetLoginPage extends PageStateEvent {}
+
+class SetRegisterPage extends PageStateEvent {}

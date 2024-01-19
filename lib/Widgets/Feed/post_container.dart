@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -6,6 +8,7 @@ import 'package:zero/Cubit/Page_state/page_state_cubit.dart';
 import 'package:zero/Global/colors.dart';
 import 'package:zero/Model/post.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:zero/Repository/Core/endpoints.dart';
 import 'package:zero/Screen/Feed/feed_page.dart';
 
 class PostContainer extends StatefulWidget {
@@ -25,8 +28,20 @@ class _PostContainerState extends State<PostContainer> {
     return timeAgo;
   }
 
+  Color getRandomLightColor() {
+    final random = Random();
+    final r = 200 + random.nextInt(100); // Random red component (200-255)
+    final g = 100 + random.nextInt(100); // Random green component (200-255)
+    final b = 200 + random.nextInt(100); // Random blue component (200-255)
+    return Color.fromARGB(255, r, g, b); // Create a random color
+  }
+
   @override
   Widget build(BuildContext context) {
+    Uri imageUrl =
+        Uri.parse('${Endpoints.apiVersion}/${widget.post.image.toString()}');
+    String formattedUrl = imageUrl.toString().replaceAll(r'\', '/');
+
     return GestureDetector(
       onTap: () {
         print("object");
@@ -37,14 +52,14 @@ class _PostContainerState extends State<PostContainer> {
         margin: const EdgeInsets.all(8),
         width: double.maxFinite,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: getRandomLightColor().withOpacity(0.2),
           borderRadius: BorderRadius.circular(10),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: AppTheme.grey.withOpacity(0.2),
-                offset: const Offset(1, 1),
-                blurRadius: 5.0),
-          ],
+          // boxShadow: <BoxShadow>[
+          //   BoxShadow(
+          //       color: AppTheme.grey.withOpacity(0.2),
+          //       offset: const Offset(1, 1),
+          //       blurRadius: 5.0),
+          // ],
         ),
         child: Column(
           children: [
@@ -68,18 +83,20 @@ class _PostContainerState extends State<PostContainer> {
                         color: AppTheme.grey.withOpacity(0.5),
                       ),
                     ),
-                    if (widget.post.description.toString().isNotEmpty)
+                    if (widget.post.image.toString().isNotEmpty)
                       SizedBox(
                         width: double.maxFinite,
                         child: Image.network(
-                          widget.post.image.toString(),
+                          formattedUrl,
                           fit: BoxFit.fitWidth,
+                          errorBuilder: (context, error, stackTrace) {
+                            return SizedBox();
+                          },
                         ),
                       ),
                     const Text("Tags"),
                   ]),
             ),
-            const Divider(),
             Container(
               padding: const EdgeInsets.all(8),
               child: Row(
@@ -122,7 +139,8 @@ class _PostContainerState extends State<PostContainer> {
                         .withOpacity(0.5),
                   ),
                   Text(
-                    formatTimeAgo(widget.post.updatedAt.toString()),
+                    //formatTimeAgo("s"),
+                    "4",
                     style: GoogleFonts.roboto(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w400,

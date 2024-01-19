@@ -12,3 +12,7 @@ final class PageStatePostView extends PageStateState {
 }
 
 final class PageStateFeedView extends PageStateState {}
+
+class PageStateLogin extends PageStateState {}
+
+class PageStateRegister extends PageStateState {}

@@ -14,4 +14,12 @@ class PageStateCubit extends Cubit<PageStateState> {
   void setPostView(selectedPost) {
     emit(PageStatePostView(selectedPost: selectedPost));
   }
+
+  void setLoginPage() {
+    emit(PageStateLogin());
+  }
+
+  void setRegisterPage() {
+    emit(PageStateRegister());
+  }
 }
