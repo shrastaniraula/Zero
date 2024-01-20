@@ -11,6 +11,7 @@ import 'package:zero/Repository/Auth/auth_repository.dart';
 import 'package:zero/Repository/Feed/feed_repository.dart';
 import 'package:zero/Screen/Auth/auth_page.dart';
 import 'package:zero/Screen/Feed/post_detail_layout.dart';
+import 'package:zero/Screen/Feed/side_box.dart';
 import 'package:zero/Widgets/Feed/create_post_header.dart';
 import 'package:zero/Widgets/Feed/post_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -261,6 +262,7 @@ class _FeedScreenState extends State<FeedScreen> {
           Container(
             decoration: const BoxDecoration(),
             width: MediaQuery.of(context).size.width * 0.2,
+            child: SideBox(),
           )
         ],
       );

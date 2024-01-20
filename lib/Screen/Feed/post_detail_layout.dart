@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -35,6 +37,13 @@ class _PostDetailLayoutState extends State<PostDetailLayout> {
   FeedRepository _feedRepository = FeedRepository();
   AuthRepository authRepository = AuthRepository();
   List<Comment> comments = [];
+  Color getRandomLightColor() {
+    final random = Random();
+    final r = 200 + random.nextInt(100); // Random red component (200-255)
+    final g = 100 + random.nextInt(100); // Random green component (200-255)
+    final b = 200 + random.nextInt(100); // Random blue component (200-255)
+    return Color.fromARGB(255, r, g, b); // Create a random color
+  }
 
   createComment(String commentDesc) async {
     int postId = widget.post.id!;
@@ -84,14 +93,8 @@ class _PostDetailLayoutState extends State<PostDetailLayout> {
                 margin: const EdgeInsets.all(8),
                 width: double.maxFinite,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: getRandomLightColor().withOpacity(0.2),
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                        color: AppTheme.grey.withOpacity(0.2),
-                        offset: const Offset(1, 1),
-                        blurRadius: 5.0),
-                  ],
                 ),
                 child: Column(
                   children: [

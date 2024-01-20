@@ -118,7 +118,7 @@ class FeedRepository {
           },
         ),
       );
-      print("Ara");
+      print(response.data);
       if (response.statusCode == 200) {
         final responseData = response.data;
 

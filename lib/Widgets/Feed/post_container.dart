@@ -53,7 +53,7 @@ class _PostContainerState extends State<PostContainer> {
         width: double.maxFinite,
         decoration: BoxDecoration(
           color: getRandomLightColor().withOpacity(0.2),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(20),
           // boxShadow: <BoxShadow>[
           //   BoxShadow(
           //       color: AppTheme.grey.withOpacity(0.2),
@@ -84,14 +84,20 @@ class _PostContainerState extends State<PostContainer> {
                       ),
                     ),
                     if (widget.post.image.toString().isNotEmpty)
-                      SizedBox(
+                      Container(
+                        height: 350,
                         width: double.maxFinite,
-                        child: Image.network(
-                          "https://source.unsplash.com/random/900×700/?fruit",
-                          fit: BoxFit.fitWidth,
-                          errorBuilder: (context, error, stackTrace) {
-                            return SizedBox();
-                          },
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            image: NetworkImage(
+                                "https://source.unsplash.com/random/900x700/?fruit"),
+                            fit: BoxFit.fitWidth,
+                            onError: (exception, stackTrace) {
+                              // Handle image loading errors
+                              print("Error loading image: $exception");
+                            },
+                          ),
                         ),
                       ),
                     const Text("Tags"),
