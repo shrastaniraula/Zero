@@ -8,12 +8,9 @@ import 'package:zero/Model/comment.dart';
 class CommentContainer extends StatelessWidget {
   final Comment comment;
   const CommentContainer({super.key, required this.comment});
+
   Color getRandomLightColor() {
-    final random = Random();
-    final r = 200 + random.nextInt(100); // Random red component (200-255)
-    final g = 100 + random.nextInt(100); // Random green component (200-255)
-    final b = 200 + random.nextInt(100); // Random blue component (200-255)
-    return Color.fromARGB(255, r, g, b); // Create a random color
+    return Colors.primaries[Random().nextInt(Colors.primaries.length)];
   }
 
   @override
