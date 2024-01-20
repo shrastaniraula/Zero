@@ -6,31 +6,31 @@ class FoodPage extends StatelessWidget {
       'title': 'Eat low on the food chain:',
       'description':
           'Consume mostly fruits, veggies, grains, and beans. Livestock—meat and dairy—is responsible for 14.5 percent of manmade global greenhouse gas emissions. Every day that you forgo meat and dairy, you can reduce your carbon footprint by 8 pounds—that’s 2,920 pounds a year. Consider joining Meatless Mondays.',
-      'image': 'img/kimchi.png',
+      'image': 'assets/img/kimchi.png',
     },
     {
       'title': 'Choose organic and local foods:',
       'description':
           'Transporting food from far away uses fossil fuels. Opt for organic and local foods that are in season to reduce the carbon footprint associated with transportation.',
-      'image': 'img/kimchi.png',
+      'image': 'assets/img/kimchi.png',
     },
     {
       'title': 'Buy foodstuffs in bulk:',
       'description':
           'Reduce packaging waste by buying food in bulk using your own reusable container.',
-      'image': 'kimchi.png',
+      'image': 'assets/img/kimchi.png',
     },
     {
       'title': 'Reduce food waste:',
       'description':
           'Plan meals ahead, freeze excess, and reuse leftovers to minimize food waste.',
-      'image': 'assets/food_image_4.jpg',
+      'image': 'assets/img/kimchi.png',
     },
     {
       'title': 'Compost your food waste:',
       'description':
           'If possible, compost your food waste to further reduce environmental impact.',
-      'image': 'assets/food_image_5.jpg',
+      'image': 'assets/img/kimchi.png',
     },
   ];
 
