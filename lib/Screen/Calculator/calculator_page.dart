@@ -98,18 +98,18 @@ class _CarbonFootprintCalculatorState extends State<CarbonFootprintCalculator> {
         body: SingleChildScrollView(
           child: Center(
             child: Container(
-              width: MediaQuery.sizeOf(context).width * 0.5,
+              width: MediaQuery.sizeOf(context).width * 0.8,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                      color:  Color.fromARGB(255, 185, 185, 185),
+                      color: Color.fromARGB(255, 185, 185, 185),
                       offset: Offset(1, 1),
                       blurRadius: 5.0),
                 ],
               ),
-              margin: const EdgeInsets.all(60),
+              margin: const EdgeInsets.all(10),
               padding: const EdgeInsets.all(50),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,

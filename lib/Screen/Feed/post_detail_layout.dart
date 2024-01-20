@@ -194,7 +194,6 @@ class _PostDetailLayoutState extends State<PostDetailLayout> {
                   } else if (state is CmtLoaded) {
                     comments = state.cmts;
                     return Container(
-                      height: 500,
                       child: ListView.builder(
                         shrinkWrap: true,
                         itemCount: comments.length,

@@ -76,11 +76,11 @@ class _PostContainerState extends State<PostContainer> {
                     ),
                     Text(
                       widget.post.description.toString(),
-                      style: GoogleFonts.roboto(
+                      style: GoogleFonts.acme(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w400,
                         letterSpacing: -0.1,
-                        color: AppTheme.grey.withOpacity(0.5),
+                        color: AppTheme.darkText,
                       ),
                     ),
                     if (widget.post.image.toString().isNotEmpty)

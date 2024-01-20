@@ -58,31 +58,26 @@ class _FeedScreenState extends State<FeedScreen> {
         children: [
           Container(
             padding: const EdgeInsets.only(top: 8, right: 16, left: 16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: AppTheme.grey.withOpacity(0.2),
-                    offset: const Offset(1, 1),
-                    blurRadius: 5.0),
-              ],
-            ),
             child: Row(
               children: [
-                Text(
-                  "Welcome back, Hensal!",
-                  style: GoogleFonts.roboto(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: -0.1,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      "Feeds",
+                      style: GoogleFonts.roboto(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -0.1,
+                      ),
+                    ),
+                  ],
                 ),
                 const Expanded(child: SizedBox()),
                 Container(
                   width: MediaQuery.sizeOf(context).width * 0.3,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: AppTheme.background),
+                      color: AppTheme.white),
                   margin: const EdgeInsets.all(10),
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: TextFormField(
@@ -198,22 +193,6 @@ class _FeedScreenState extends State<FeedScreen> {
         padding: const EdgeInsets.all(8),
         child: Column(
           children: [
-            Container(
-              width: double.infinity, // or provide a specific width value
-              child: const CreatePostHeader(),
-            ),
-            Row(
-              children: [
-                Text(
-                  "Feed",
-                  style: GoogleFonts.roboto(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: -0.1,
-                  ),
-                ),
-              ],
-            ),
             Expanded(
               child: ListView.builder(
                 itemCount: posts.length,
@@ -221,7 +200,11 @@ class _FeedScreenState extends State<FeedScreen> {
                   return PostContainer(post: posts[index]);
                 },
               ),
-            )
+            ),
+            Container(
+              width: double.infinity, // or provide a specific width value
+              child: const CreatePostHeader(),
+            ),
           ],
         ),
       );
@@ -234,19 +217,6 @@ class _FeedScreenState extends State<FeedScreen> {
               padding: const EdgeInsets.all(8),
               child: Column(
                 children: [
-                  const CreatePostHeader(),
-                  Row(
-                    children: [
-                      Text(
-                        "Feed",
-                        style: GoogleFonts.roboto(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: -0.1,
-                        ),
-                      ),
-                    ],
-                  ),
                   Expanded(
                     child: ListView.builder(
                       itemCount: posts.length,
@@ -254,7 +224,8 @@ class _FeedScreenState extends State<FeedScreen> {
                         return PostContainer(post: posts[index]);
                       },
                     ),
-                  )
+                  ),
+                  const CreatePostHeader(),
                 ],
               ),
             ),
