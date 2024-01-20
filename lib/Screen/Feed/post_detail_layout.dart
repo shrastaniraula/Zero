@@ -58,13 +58,17 @@ class _PostDetailLayoutState extends State<PostDetailLayout> {
   }
 
   AuthUser? authUser;
+  final Random random = Random();
 
+  late int likesCount;
+  bool isFavorited = false;
   @override
   void initState() {
     _feedBloc = FeedBloc(FeedRepository());
     _feedBloc.add(GetCmtOfPost(postId: widget.post.id!));
     super.initState();
     loadUserData();
+    likesCount = random.nextInt(101);
   }
 
   Future<void> loadUserData() async {
@@ -169,14 +173,29 @@ class _PostDetailLayoutState extends State<PostDetailLayout> {
                       padding: const EdgeInsets.all(8),
                       child: Row(
                         children: [
-                          Icon(
-                            Icons.favorite_border_rounded,
-                            color: const Color.fromARGB(255, 96, 106, 114)
-                                .withOpacity(0.5),
+                          GestureDetector(
+                            onTap: () {
+                              // Toggle the favorite status and update the likes count
+                              setState(() {
+                                isFavorited = !isFavorited;
+                                likesCount = isFavorited
+                                    ? likesCount + 1
+                                    : likesCount - 1;
+                              });
+                            },
+                            child: Icon(
+                              isFavorited
+                                  ? Icons.favorite_rounded
+                                  : Icons.favorite_border_rounded,
+                              color: isFavorited
+                                  ? Colors.red
+                                  : const Color.fromARGB(255, 96, 106, 114)
+                                      .withOpacity(0.5),
+                            ),
                           ),
                           const Gap(4),
                           Text(
-                            widget.post.upVote_count.toString(),
+                            likesCount.toString(),
                             style: GoogleFonts.roboto(
                               fontSize: 16.0,
                               fontWeight: FontWeight.w400,
@@ -192,8 +211,7 @@ class _PostDetailLayoutState extends State<PostDetailLayout> {
                                 .withOpacity(0.5),
                           ),
                           Text(
-                            // formatTimeAgo("s"),
-                            "2024/01/20",
+                            "${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}",
                             style: GoogleFonts.roboto(
                               fontSize: 16.0,
                               fontWeight: FontWeight.w400,

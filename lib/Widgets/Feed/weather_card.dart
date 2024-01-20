@@ -29,8 +29,7 @@ class WeatherView extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            padding:
-                const EdgeInsets.only(left: 24, right: 24, top: 6, bottom: 6),
+            padding: const EdgeInsets.only(left: 24, right: 4),
             width: MediaQuery.sizeOf(context).width * 0.15,
             height: MediaQuery.sizeOf(context).height * 0.2,
             child: Column(

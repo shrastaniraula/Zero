@@ -10,6 +10,7 @@ import 'package:zero/Model/post.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:zero/Repository/Core/endpoints.dart';
 import 'package:zero/Screen/Feed/feed_page.dart';
+import 'package:zero/Widgets/Feed/post_engement.dart';
 
 class PostContainer extends StatefulWidget {
   final Post post;
@@ -132,60 +133,7 @@ class _PostContainerState extends State<PostContainer> {
                     ),
                   ]),
             ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.favorite_border_rounded,
-                    color: const Color.fromARGB(255, 96, 106, 114)
-                        .withOpacity(0.5),
-                  ),
-                  const Gap(4),
-                  Text(
-                    widget.post.upVote_count.toString(),
-                    style: GoogleFonts.roboto(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: -0.1,
-                      color: AppTheme.grey.withOpacity(0.5),
-                    ),
-                  ),
-                  const Gap(16),
-                  Icon(
-                    Icons.comment_outlined,
-                    color: const Color.fromARGB(255, 96, 106, 114)
-                        .withOpacity(0.5),
-                  ),
-                  const Gap(4),
-                  // Text(
-                  //   post.commentsCount.toString(),
-                  //   style: GoogleFonts.roboto(
-                  //     fontSize: 16.0,
-                  //     fontWeight: FontWeight.w400,
-                  //     letterSpacing: -0.1,
-                  //     color: AppTheme.grey.withOpacity(0.5),
-                  //   ),
-                  // ),
-                  const Expanded(child: SizedBox()),
-                  Icon(
-                    Icons.calendar_month,
-                    color: const Color.fromARGB(255, 96, 106, 114)
-                        .withOpacity(0.5),
-                  ),
-                  Text(
-                    //formatTimeAgo("s"),
-                    "2024/01/20",
-                    style: GoogleFonts.roboto(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: -0.1,
-                      color: AppTheme.grey.withOpacity(0.5),
-                    ),
-                  )
-                ],
-              ),
-            )
+            PostEngement()
           ],
         ),
       ),
