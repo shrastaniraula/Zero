@@ -121,7 +121,7 @@ class FoodPage extends StatelessWidget {
             //     blurRadius: 5.0,
             //   ),
             // ],
-            // ),
+            // ),\
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Image.asset(
