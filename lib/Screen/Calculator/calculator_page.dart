@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 // import 'package:circular/circular.dart';
 import 'package:zero/Widgets/calculator/circular_drag.dart';
 // import 'tips_screen.dart';
@@ -54,12 +55,13 @@ class _CarbonFootprintCalculatorState extends State<CarbonFootprintCalculator> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Great job!"),
-            content: Text(
+            title:
+                const Text("Great job!", style: TextStyle(color: Colors.black)),
+            content: const Text(
                 "Your carbon footprint is less than 10 tons of CO2 per year."),
             actions: [
               TextButton(
-                child: Text("OK"),
+                child: const Text("OK"),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -72,12 +74,13 @@ class _CarbonFootprintCalculatorState extends State<CarbonFootprintCalculator> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("You can do better!"),
+            title: const Text("You can do better!",
+                style: TextStyle(color: Colors.black)),
             content: Text(
                 "Your carbon footprint is ${_totalCarbonFootprint.toStringAsFixed(2)} tons of CO2 per year. You should plant ${treesToPlant.toStringAsFixed(0)} trees per year to offset your carbon emissions."),
             actions: [
               TextButton(
-                child: Text("OK"),
+                child: const Text("OK"),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -102,7 +105,7 @@ class _CarbonFootprintCalculatorState extends State<CarbonFootprintCalculator> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
-                boxShadow: <BoxShadow>[
+                boxShadow: const <BoxShadow>[
                   BoxShadow(
                       color: Color.fromARGB(255, 185, 185, 185),
                       offset: Offset(1, 1),
@@ -122,7 +125,7 @@ class _CarbonFootprintCalculatorState extends State<CarbonFootprintCalculator> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -164,7 +167,7 @@ class _CarbonFootprintCalculatorState extends State<CarbonFootprintCalculator> {
                       )
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -206,14 +209,14 @@ class _CarbonFootprintCalculatorState extends State<CarbonFootprintCalculator> {
                       )
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Column(
                         children: [
                           const Text(
-                            "Meat consumption \n(pounds per week)",
+                            "Meat consumption \n(kilograms per week)",
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(
@@ -248,7 +251,7 @@ class _CarbonFootprintCalculatorState extends State<CarbonFootprintCalculator> {
                       )
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -290,13 +293,21 @@ class _CarbonFootprintCalculatorState extends State<CarbonFootprintCalculator> {
                       )
                     ],
                   ),
-                  SizedBox(height: 20),
-                  SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: _calculateCarbonFootprint,
-                    child: Text('Calculate'),
+                  const SizedBox(height: 20),
+                  const SizedBox(height: 16.0),
+                  GestureDetector(
+                    onTap: _calculateCarbonFootprint,
+                    child: Container(
+                        padding: EdgeInsets.all(8),
+                        color: Colors.black,
+                        child: Center(
+                          child: Text(
+                            'Calculate',
+                            style: GoogleFonts.aBeeZee(color: Colors.white),
+                          ),
+                        )),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                 ],
               ),
             ),

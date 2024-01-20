@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zero/Model/post.dart';
+import 'package:zero/Widgets/Feed/weather_card.dart';
 import '../../Repository/Feed/feed_repository.dart';
 
 class SideBox extends StatefulWidget {
@@ -62,6 +63,8 @@ class _SideBoxState extends State<SideBox> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const WeatherView(),
+              Gap(8),
               Container(
                 child: Text("Recent",
                     style: GoogleFonts.aBeeZee(
@@ -71,20 +74,17 @@ class _SideBoxState extends State<SideBox> {
               ),
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: recentPosts.length,
+                itemCount: 5,
                 itemBuilder: (context, index) {
                   return Container(
                     padding: const EdgeInsets.all(2.0),
                     child: Row(
                       children: [
                         Container(
-                          ///depend on font Size
                           height: 16,
                           width: 2,
                           color: getRandomLightColor(),
                           margin: const EdgeInsets.only(right: 5),
-
-                          /// <= margin  text container
                         ),
                         const Gap(2),
                         Text(

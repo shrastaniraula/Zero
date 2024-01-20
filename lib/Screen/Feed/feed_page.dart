@@ -250,9 +250,11 @@ class _FeedScreenState extends State<FeedScreen> {
     } else {
       return Row(children: [
         PostDetailLayout(post: selectedPost),
-        Container(
-          decoration: const BoxDecoration(),
-          width: MediaQuery.of(context).size.width * 0.2,
+        Expanded(
+          child: Container(
+            decoration: const BoxDecoration(),
+            //width: MediaQuery.of(context).size.width * 0.2,
+          ),
         )
       ]);
     }
