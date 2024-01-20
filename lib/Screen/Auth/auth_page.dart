@@ -7,6 +7,7 @@ import 'package:zero/Repository/Auth/auth_repository.dart';
 import 'package:zero/Screen/Auth/login_page.dart';
 import 'package:zero/Screen/Auth/profile_page.dart';
 import 'package:zero/Screen/Auth/signUp_page.dart';
+import 'package:zero/Screen/Feed/feed_page.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -51,9 +52,7 @@ class _AuthScreenState extends State<AuthScreen> {
               } else if (state is AlreadyAuthenticated) {
                 return ProfileScreen();
               } else if (state is Authenticated) {
-                return const SizedBox(
-                  child: Text("Logged In"),
-                );
+                return FeedScreen();
               } else if (state is UnAuthenticated || state is AuthError) {
                 return BlocBuilder<PageStateCubit, PageStateState>(
                   builder: (context, pageState) {

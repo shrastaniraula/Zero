@@ -7,10 +7,11 @@ import 'package:zero/Bloc/Feed/feed_bloc.dart';
 import 'package:zero/Cubit/Page_state/page_state_cubit.dart';
 import 'package:zero/Global/colors.dart';
 import 'package:zero/Model/post.dart';
+import 'package:zero/Repository/Auth/auth_repository.dart';
 import 'package:zero/Repository/Feed/feed_repository.dart';
 import 'package:zero/Screen/Auth/auth_page.dart';
 import 'package:zero/Screen/Feed/post_detail_layout.dart';
-import 'package:zero/Widgets/Feed/create_post_container.dart';
+import 'package:zero/Widgets/Feed/create_post_header.dart';
 import 'package:zero/Widgets/Feed/post_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,6 +23,8 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
+  AuthRepository authRepository = AuthRepository();
+  AuthUser? authUser;
   late PageStateCubit _pageStateCubit;
   late FeedBloc _feedBloc;
   List<Post> futurePosts = [];
@@ -32,6 +35,14 @@ class _FeedScreenState extends State<FeedScreen> {
     _feedBloc = FeedBloc(FeedRepository());
     _feedBloc.add(FeedRequested());
     super.initState();
+    loadUserData();
+  }
+
+  Future<void> loadUserData() async {
+    AuthUser? user = await authRepository.getAuthUser();
+    setState(() {
+      authUser = user;
+    });
   }
 
   @override
@@ -91,7 +102,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return AuthScreen();
+                      return const AuthScreen();
                     }));
                   },
                   child: Container(
@@ -100,10 +111,10 @@ class _FeedScreenState extends State<FeedScreen> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: AppTheme.background),
-                    child: const Row(children: [
-                      Text("Hensal Rai"),
-                      Gap(8),
-                      CircleAvatar(
+                    child: Row(children: [
+                      Text('${authUser?.name ?? 'userName'}'),
+                      const Gap(8),
+                      const CircleAvatar(
                         radius: 15,
                         backgroundImage:
                             NetworkImage("https://thispersondoesnotexist.com/"),
@@ -259,7 +270,7 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget _buildPostDetailLayout(selectedPost) {
     if (selectedPost == null) {
       // Handle the case where there's no selected post
-      return SizedBox(); // or throw an error, depending on your logic
+      return const SizedBox(); // or throw an error, depending on your logic
     }
     if (MediaQuery.of(context).size.width < 600) {
       return PostDetailLayout(post: selectedPost);

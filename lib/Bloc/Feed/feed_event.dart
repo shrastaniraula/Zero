@@ -17,3 +17,10 @@ class GetPostsByUserId extends FeedEvent {
   //  @override
   // List<Object?> get props => [userId];
 }
+
+class CreateCmt extends FeedEvent {}
+
+class GetCmtOfPost extends FeedEvent {
+  final int postId;
+  const GetCmtOfPost({required this.postId});
+}

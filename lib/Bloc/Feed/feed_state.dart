@@ -39,9 +39,13 @@ class CmtError extends FeedState {
   List<Object> get props => [message];
 }
 
-// class CmtLoaded extends FeedState {
-//   final List<AvaterForCmt> avaterForCmts;
-//   const CmtLoaded({required this.avaterForCmts});
-//   @override
-//   List<Object> get props => [avaterForCmts];
-// }
+class CmtLoaded extends FeedState {
+  final List<Comment> cmts;
+  const CmtLoaded({required this.cmts});
+  @override
+  List<Object> get props => [cmts];
+}
+
+final class CmtInitial extends FeedState {}
+
+class CmtLoading extends FeedState {}

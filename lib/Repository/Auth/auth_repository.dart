@@ -10,16 +10,18 @@ class AuthRepository {
 
   register(String name, String email, String password) async {
     final Map<String, dynamic> requestData = {
-      'userName': name,
+      'user_name': name,
       'email': email,
       'password': password,
+      'image': 'https://source.unsplash.com/random/900×700/?fruit'
     };
-
+    print(requestData);
     try {
       var response = await _dioClient.post(
         Endpoints.register,
         data: jsonEncode(requestData),
       );
+      print("requestData");
       print(response);
       if (response.statusCode == 200 | 201) {
         final responseData = response.data;
@@ -28,7 +30,7 @@ class AuthRepository {
         print(responseData);
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
-        prefs.setString('userName', name ?? '');
+        prefs.setString('user_name', name ?? '');
         prefs.setString('email', userData['email']);
 
         return true;
@@ -57,15 +59,14 @@ class AuthRepository {
       if (response.statusCode == 200) {
         final responseData = response.data;
 
-        final userData = responseData['user'];
         print(responseData);
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
-        final name = userData['name'] as String?;
+        // final name = userData['user_name'] as String?;
 
-        prefs.setString('userName', name ?? '');
-        prefs.setString('email', userData['email']);
-        prefs.setString('photo', userData['photo']);
+        prefs.setString('userName', responseData['user_name']);
+        prefs.setString('email', responseData['email']);
+        prefs.setString('photo', responseData['photo']);
         return true;
       } else {
         return false;

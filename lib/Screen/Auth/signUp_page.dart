@@ -124,7 +124,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       onPressed: () {
                         BlocProvider.of<AuthBloc>(context).add(
                           SignUpEvent(
-                            email: usernameController.text,
+                            email: emailController.text,
                             password: passwordController.text,
                             name: usernameController.text,
                           ),

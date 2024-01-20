@@ -87,7 +87,7 @@ class _PostContainerState extends State<PostContainer> {
                       SizedBox(
                         width: double.maxFinite,
                         child: Image.network(
-                          formattedUrl,
+                          "https://source.unsplash.com/random/900×700/?fruit",
                           fit: BoxFit.fitWidth,
                           errorBuilder: (context, error, stackTrace) {
                             return SizedBox();

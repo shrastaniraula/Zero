@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:zero/Repository/Auth/auth_repository.dart';
@@ -18,7 +17,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           event.name,
           event.email,
           event.password,
-     
         );
         if (res != false) {
           emit(Authenticated());
@@ -45,6 +43,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             // If user information is found, emit AlreadyAuthenticated with user info
             emit(AlreadyAuthenticated(authUser: authUser));
           }
+          emit(Authenticated());
+        } else {
+          emit(AuthError());
         }
       } catch (e) {
         emit(AuthError());
