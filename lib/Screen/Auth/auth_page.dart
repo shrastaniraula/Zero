@@ -8,6 +8,7 @@ import 'package:zero/Screen/Auth/login_page.dart';
 import 'package:zero/Screen/Auth/profile_page.dart';
 import 'package:zero/Screen/Auth/signUp_page.dart';
 import 'package:zero/Screen/Feed/feed_page.dart';
+import 'package:zero/Screen/Layout/test.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -50,9 +51,9 @@ class _AuthScreenState extends State<AuthScreen> {
                   child: CircularProgressIndicator(),
                 );
               } else if (state is AlreadyAuthenticated) {
-                return ProfileScreen();
+                return layout();
               } else if (state is Authenticated) {
-                return FeedScreen();
+                return layout();
               } else if (state is UnAuthenticated || state is AuthError) {
                 return BlocBuilder<PageStateCubit, PageStateState>(
                   builder: (context, pageState) {

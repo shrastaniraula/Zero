@@ -12,13 +12,13 @@ class CodeLint extends StatefulWidget {
 class _CodeLintState extends State<CodeLint> {
   // List to store chat messages
   List<String> messages = [];
-  List<String> responseValues = [];
 
   // Controller for the text input field
   TextEditingController _messageController = TextEditingController();
 
   // Replace this URL with your actual API endpoint
-  static const String apiEndpoint = 'http://192.168.18.179:3000/measurePerformance';
+  static const String apiEndpoint =
+      'http://192.168.18.122:3000/measurePerformance';
 
   // Function to handle sending a message
   void _sendMessage() async {
@@ -32,9 +32,14 @@ class _CodeLintState extends State<CodeLint> {
         if (response.statusCode == 200) {
           // If the API call is successful, add the message to the chat
           setState(() {
-            messages.add(message);
+            messages.add('You: $message');
             _messageController.clear();
-            responseValues = response.body.split(','); // Assuming values are separated by commas
+
+            // Parse the JSON response and add each key-value pair to messages
+            Map<String, dynamic> jsonResponse = json.decode(response.body);
+            jsonResponse.forEach((key, value) {
+              messages.add('$key: $value');
+            });
           });
         } else {
           // Handle API error (you might want to show an error message to the user)
@@ -53,7 +58,7 @@ class _CodeLintState extends State<CodeLint> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'SunnyaGPT',
+          'SunyaGPT',
           style: TextStyle(
             fontSize: 24.0,
             fontWeight: FontWeight.bold,
@@ -65,7 +70,7 @@ class _CodeLintState extends State<CodeLint> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: ListView.builder(
@@ -74,10 +79,11 @@ class _CodeLintState extends State<CodeLint> {
                   return Align(
                     alignment: messages[index].startsWith('You: ')
                         ? Alignment.bottomRight
-                        : Alignment.bottomRight,
+                        : Alignment.bottomLeft,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.0),
                           color: messages[index].startsWith('You: ')
@@ -99,21 +105,6 @@ class _CodeLintState extends State<CodeLint> {
                   );
                 },
               ),
-            ),
-            Row(
-              children: responseValues.map((value) {
-                return Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300], // Grey color
-                      borderRadius: BorderRadius.circular(8.0), // Rounded border radius
-                    ),
-                    padding: const EdgeInsets.all(8.0),
-                    margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                    child: Text(value),
-                  ),
-                );
-              }).toList(),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -140,7 +131,8 @@ class _CodeLintState extends State<CodeLint> {
                       size: 24.0,
                       semanticLabel: 'Send Message',
                     ),
-                    onTap: _sendMessage, // Call the function when the icon is tapped
+                    onTap:
+                        _sendMessage, // Call the function when the icon is tapped
                   ),
                 ],
               ),
@@ -150,10 +142,4 @@ class _CodeLintState extends State<CodeLint> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: CodeLint(),
-  ));
 }

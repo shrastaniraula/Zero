@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:zero/Global/colors.dart';
 
 class FoodPage extends StatelessWidget {
   final List<Map<String, String>> foodTips = [
@@ -37,137 +41,68 @@ class FoodPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Food",
-            style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+            style:
+                GoogleFonts.aBeeZee(fontWeight: FontWeight.bold, fontSize: 25),
           ),
-          SizedBox(height: 12.0),
+          Gap(12),
           Text(
             "In the face of the recent National Climate Assessment report on the threats of climate change, taking steps to reduce your carbon footprint is crucial. Here are some ways to make a difference through your food choices:",
-            style: TextStyle(fontSize: 16.0),
+            style: GoogleFonts.aBeeZee(fontSize: 16),
           ),
-          SizedBox(height: 12.0),
-          Container(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: foodTips.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.only(bottom: 1.0),
-                  padding: EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    // borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Color.fromARGB(255, 228, 228, 228),
-                        offset: Offset(0, 3),
-                        blurRadius: 1.0,
-                      ),
-                    ],
-                  ),
-                  child: index.isOdd
-                      ? _buildFoodCardWithImageOnLeft(foodTips[index])
-                      : _buildFoodCardWithImageOnRight(foodTips[index]),
-                );
-              },
+          const SizedBox(height: 12.0),
+          MasonryGridView.builder(
+            itemCount: foodTips.length, // Use the length of galleryImgs
+            gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
             ),
-          ),
+            shrinkWrap: true,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            // physics:
+            //     const NeverScrollableScrollPhysics(), // Disable scrolling for MasonryGridView
+            itemBuilder: (context, index) {
+              var data = foodTips[index]; // Access the GalleryImg instance
+
+              return Container(
+                margin: const EdgeInsets.only(bottom: 1.0),
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: AppTheme.grey.withOpacity(0.2),
+                      offset: const Offset(1, 1),
+                      blurRadius: 5.0,
+                    ),
+                  ],
+                ),
+                child: Column(children: [
+                  Text(
+                    data['title']!,
+                    style: GoogleFonts.aBeeZee(
+                        fontWeight: FontWeight.bold, fontSize: 25),
+                  ),
+                  const Divider(
+                    thickness: 2,
+                    color: Colors.amber,
+                  ),
+                  Text(
+                    data['description']!,
+                    style: GoogleFonts.aBeeZee(fontSize: 16),
+                  )
+                ]),
+              );
+            },
+          )
         ],
       ),
-    );
-  }
-
-  Widget _buildFoodCard(Map<String, String> tip) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          tip['title']!,
-          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 8.0),
-        Text(
-          tip['description']!,
-          style: TextStyle(fontSize: 16.0),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFoodCardWithImageOnLeft(Map<String, String> tip) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          flex: 2,
-          child: _buildFoodCard(tip),
-        ),
-        SizedBox(width: 12.0),
-        Expanded(
-          flex: 1,
-          child: Container(
-            height: 120.0,
-            // decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(8.0),
-            // boxShadow: <BoxShadow>[
-            //   BoxShadow(
-            //     color: Color.fromARGB(255, 185, 185, 185),
-            //     offset: Offset(1, 1),
-            //     blurRadius: 5.0,
-            //   ),
-            // ],
-            // ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.asset(
-                tip['image']!,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFoodCardWithImageOnRight(Map<String, String> tip) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          flex: 1,
-          child: Container(
-            height: 120.0,
-            // decoration: BoxDecoration(
-            // borderRadius: BorderRadius.circular(8.0),
-            // boxShadow: <BoxShadow>[
-            //   BoxShadow(
-            //     color: Color.fromARGB(255, 185, 185, 185),
-            //     offset: Offset(1, 1),
-            //     blurRadius: 5.0,
-            //   ),
-            // ],
-            // ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.asset(
-                tip['image']!,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(width: 12.0),
-        Expanded(
-          flex: 2,
-          child: _buildFoodCard(tip),
-        ),
-      ],
     );
   }
 }

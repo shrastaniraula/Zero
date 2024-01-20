@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:zero/Bloc/Auth/auth_bloc.dart';
 import 'package:zero/Bloc/Auth/auth_event.dart';
 import 'package:zero/Cubit/Page_state/page_state_cubit.dart';
+import 'package:zero/Screen/Layout/test.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -129,6 +130,10 @@ class _SignupScreenState extends State<SignupScreen> {
                             name: usernameController.text,
                           ),
                         );
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return layout();
+                        }));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
@@ -154,8 +159,10 @@ class _SignupScreenState extends State<SignupScreen> {
                       const Gap(5),
                       TextButton(
                         onPressed: () {
-                          BlocProvider.of<PageStateCubit>(context).emit(
-                              PageStateLogin()); // Update the state to PageStateRegister
+                          BlocProvider.of<PageStateCubit>(context)
+                              .emit(PageStateLogin());
+
+                          // Update the ;state to PageStateRegister
                         },
                         child: const Text(
                           'Login',

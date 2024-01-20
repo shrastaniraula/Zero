@@ -10,6 +10,7 @@ import 'package:zero/Model/post.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:zero/Repository/Core/endpoints.dart';
 import 'package:zero/Screen/Feed/feed_page.dart';
+import 'package:zero/Widgets/Feed/post_engement.dart';
 
 class PostContainer extends StatefulWidget {
   final Post post;
@@ -69,11 +70,58 @@ class _PostContainerState extends State<PostContainer> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(
-                      widget.post.postBy.toString(),
-                      style: GoogleFonts.roboto(
-                          fontSize: 20.0, fontWeight: FontWeight.bold),
+                    Row(
+                      children: [
+                        const CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                "https://source.unsplash.com/random/900x700/?fruit")),
+                        const Gap(4),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.post.postBy.toString(),
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16.0, fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  top: 1, bottom: 1, left: 4, right: 4),
+                              decoration: BoxDecoration(
+                                  color: getRandomLightColor().withOpacity(0.7),
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Text(
+                                widget.post.tag.toString(),
+                                style: GoogleFonts.acme(
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: -0.1,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
+                    if (widget.post.image.toString().isNotEmpty)
+                      Container(
+                        width: double.maxFinite,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              formattedUrl,
+                              //    "https://source.unsplash.com/random/900x700/?fruit"),
+                            ),
+                            fit: BoxFit.fitWidth,
+                            onError: (exception, stackTrace) {
+                              // Handle image loading errors
+                              print("Error loading image: $exception");
+                            },
+                          ),
+                        ),
+                      ),
                     Text(
                       widget.post.description.toString(),
                       style: GoogleFonts.acme(
@@ -83,80 +131,9 @@ class _PostContainerState extends State<PostContainer> {
                         color: AppTheme.darkText,
                       ),
                     ),
-                    if (widget.post.image.toString().isNotEmpty)
-                      Container(
-                        height: 350,
-                        width: double.maxFinite,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                "https://source.unsplash.com/random/900x700/?fruit"),
-                            fit: BoxFit.fitWidth,
-                            onError: (exception, stackTrace) {
-                              // Handle image loading errors
-                              print("Error loading image: $exception");
-                            },
-                          ),
-                        ),
-                      ),
-                    const Text("Tags"),
                   ]),
             ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.favorite_border_rounded,
-                    color: const Color.fromARGB(255, 96, 106, 114)
-                        .withOpacity(0.5),
-                  ),
-                  const Gap(4),
-                  Text(
-                    widget.post.upVote_count.toString(),
-                    style: GoogleFonts.roboto(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: -0.1,
-                      color: AppTheme.grey.withOpacity(0.5),
-                    ),
-                  ),
-                  const Gap(16),
-                  Icon(
-                    Icons.comment_outlined,
-                    color: const Color.fromARGB(255, 96, 106, 114)
-                        .withOpacity(0.5),
-                  ),
-                  const Gap(4),
-                  // Text(
-                  //   post.commentsCount.toString(),
-                  //   style: GoogleFonts.roboto(
-                  //     fontSize: 16.0,
-                  //     fontWeight: FontWeight.w400,
-                  //     letterSpacing: -0.1,
-                  //     color: AppTheme.grey.withOpacity(0.5),
-                  //   ),
-                  // ),
-                  const Expanded(child: SizedBox()),
-                  Icon(
-                    Icons.calendar_month,
-                    color: const Color.fromARGB(255, 96, 106, 114)
-                        .withOpacity(0.5),
-                  ),
-                  Text(
-                    //formatTimeAgo("s"),
-                    "4",
-                    style: GoogleFonts.roboto(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: -0.1,
-                      color: AppTheme.grey.withOpacity(0.5),
-                    ),
-                  )
-                ],
-              ),
-            )
+            PostEngement()
           ],
         ),
       ),

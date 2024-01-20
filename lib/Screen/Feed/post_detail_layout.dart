@@ -58,13 +58,17 @@ class _PostDetailLayoutState extends State<PostDetailLayout> {
   }
 
   AuthUser? authUser;
+  final Random random = Random();
 
+  late int likesCount;
+  bool isFavorited = false;
   @override
   void initState() {
     _feedBloc = FeedBloc(FeedRepository());
     _feedBloc.add(GetCmtOfPost(postId: widget.post.id!));
     super.initState();
     loadUserData();
+    likesCount = random.nextInt(101);
   }
 
   Future<void> loadUserData() async {
@@ -104,33 +108,64 @@ class _PostDetailLayoutState extends State<PostDetailLayout> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Text(
-                              widget.post.postBy.toString(),
-                              style: GoogleFonts.roboto(
-                                  fontSize: 20.0, fontWeight: FontWeight.bold),
+                            Row(
+                              children: [
+                                const CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        "https://source.unsplash.com/random/900x700/?fruit")),
+                                const Gap(4),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.post.postBy.toString(),
+                                      style: GoogleFonts.roboto(
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(
+                                          top: 1, bottom: 1, left: 4, right: 4),
+                                      decoration: BoxDecoration(
+                                          color: getRandomLightColor()
+                                              .withOpacity(0.7),
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      child: Text(
+                                        widget.post.tag.toString(),
+                                        style: GoogleFonts.acme(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: -0.1,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                             Text(
                               widget.post.description.toString(),
-                              style: GoogleFonts.roboto(
+                              style: GoogleFonts.acme(
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w400,
                                 letterSpacing: -0.1,
-                                color: AppTheme.grey.withOpacity(0.5),
+                                color: AppTheme.darkText,
                               ),
                             ),
                             if (widget.post.image.toString().isNotEmpty)
                               SizedBox(
                                 width: double.maxFinite,
                                 child: Image.network(
-                                  //    formattedUrl,
-                                  "https://source.unsplash.com/random/900×700/?fruit",
+                                  formattedUrl,
+                                  //  "https://source.unsplash.com/random/900×700/?fruit",
                                   fit: BoxFit.fitWidth,
                                   errorBuilder: (context, error, stackTrace) {
                                     return SizedBox();
                                   },
                                 ),
                               ),
-                            const Text("Tags"),
                           ]),
                     ),
                     const Divider(),
@@ -138,14 +173,29 @@ class _PostDetailLayoutState extends State<PostDetailLayout> {
                       padding: const EdgeInsets.all(8),
                       child: Row(
                         children: [
-                          Icon(
-                            Icons.favorite_border_rounded,
-                            color: const Color.fromARGB(255, 96, 106, 114)
-                                .withOpacity(0.5),
+                          GestureDetector(
+                            onTap: () {
+                              // Toggle the favorite status and update the likes count
+                              setState(() {
+                                isFavorited = !isFavorited;
+                                likesCount = isFavorited
+                                    ? likesCount + 1
+                                    : likesCount - 1;
+                              });
+                            },
+                            child: Icon(
+                              isFavorited
+                                  ? Icons.favorite_rounded
+                                  : Icons.favorite_border_rounded,
+                              color: isFavorited
+                                  ? Colors.red
+                                  : const Color.fromARGB(255, 96, 106, 114)
+                                      .withOpacity(0.5),
+                            ),
                           ),
                           const Gap(4),
                           Text(
-                            widget.post.upVote_count.toString(),
+                            likesCount.toString(),
                             style: GoogleFonts.roboto(
                               fontSize: 16.0,
                               fontWeight: FontWeight.w400,
@@ -161,8 +211,7 @@ class _PostDetailLayoutState extends State<PostDetailLayout> {
                                 .withOpacity(0.5),
                           ),
                           Text(
-                            // formatTimeAgo("s"),
-                            "9",
+                            "${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}",
                             style: GoogleFonts.roboto(
                               fontSize: 16.0,
                               fontWeight: FontWeight.w400,

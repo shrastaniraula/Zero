@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:zero/Global/colors.dart';
+import 'package:zero/Repository/Auth/auth_repository.dart';
 import 'package:zero/Screen/Calculator/calculator_page.dart';
 import 'package:zero/Screen/Codelint/codelint_page.dart';
 import 'package:zero/Screen/Feed/feed_page.dart';
 import 'package:zero/Screen/Guildelines/guideline_tab.dart';
 
-class SidebarXExampleApp extends StatelessWidget {
-  SidebarXExampleApp({Key? key}) : super(key: key);
+import 'package:shared_preferences/shared_preferences.dart';
+
+class layout extends StatelessWidget {
+  layout({Key? key}) : super(key: key);
 
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
   final _key = GlobalKey<ScaffoldState>();
@@ -50,10 +53,10 @@ class SidebarXExampleApp extends StatelessWidget {
                     ),
                   )
                 : null,
-            drawer: ExampleSidebarX(controller: _controller),
+            drawer: SizeBar(controller: _controller),
             body: Row(
               children: [
-                if (!isSmallScreen) ExampleSidebarX(controller: _controller),
+                if (!isSmallScreen) SizeBar(controller: _controller),
                 Expanded(
                   child: Center(
                     child: _ScreensExample(
@@ -70,8 +73,8 @@ class SidebarXExampleApp extends StatelessWidget {
   }
 }
 
-class ExampleSidebarX extends StatelessWidget {
-  const ExampleSidebarX({
+class SizeBar extends StatefulWidget {
+  const SizeBar({
     Key? key,
     required SidebarXController controller,
   })  : _controller = controller,
@@ -80,9 +83,29 @@ class ExampleSidebarX extends StatelessWidget {
   final SidebarXController _controller;
 
   @override
+  _SizeBarState createState() => _SizeBarState();
+}
+
+class _SizeBarState extends State<SizeBar> {
+  AuthRepository authRepository = AuthRepository();
+  AuthUser? authUser;
+  @override
+  void initState() {
+    super.initState();
+    loadUserData();
+  }
+
+  Future<void> loadUserData() async {
+    AuthUser? user = await authRepository.getAuthUser();
+    setState(() {
+      authUser = user;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SidebarX(
-      controller: _controller,
+      controller: widget._controller,
       theme: SidebarXTheme(
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -132,14 +155,14 @@ class ExampleSidebarX extends StatelessWidget {
                     NetworkImage('https://thispersondoesnotexist.com/'),
               ),
               Text(
-                "Hensal Rai",
+                '${authUser?.name ?? 'userName'}',
                 style: GoogleFonts.poppins(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                "@hensalrai",
+                '${authUser?.email ?? 'user@example.com'}',
                 style: GoogleFonts.aBeeZee(fontSize: 14, color: Colors.grey),
               )
             ],
@@ -167,13 +190,54 @@ class ExampleSidebarX extends StatelessWidget {
           label: 'Tips',
         ),
       ],
-      footerItems: const [
+      footerItems: [
         SidebarXItem(
+          onTap: () {
+            _showLogoutConfirmationDialog(context);
+          },
           icon: Icons.logout,
           label: 'Log out',
         ),
       ],
     );
+  }
+
+  Future<void> _showLogoutConfirmationDialog(BuildContext context) async {
+    bool confirmed = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Logout'),
+          content: const Text('Are you sure you want to log out?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // User canceled
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // User confirmed
+              },
+              child: const Text('Logout'),
+            ),
+          ],
+        );
+      },
+    ); // If the user confirmed, log out
+    if (confirmed == true) {
+      // Clear shared preferences data
+      await _clearSharedPreferences();
+
+      // Navigate to the splash screen
+    }
+  }
+
+  // Function to clear shared preferences data
+  Future<void> _clearSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); // Clear all data in shared preferences
   }
 }
 
@@ -219,7 +283,7 @@ String _getTitleByIndex(int index) {
     case 1:
       return 'Search';
     case 2:
-      return 'People';
+      return 'Test Your Code';
     case 3:
       return 'Favorites';
     case 4:

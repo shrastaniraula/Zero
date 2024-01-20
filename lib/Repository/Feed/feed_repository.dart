@@ -29,13 +29,11 @@ class FeedRepository {
         }
 
         print("done");
-        return futurePosts;
+        return futurePosts.reversed.toList();
       } else {
-        // Handle error based on response status code
         return false;
       }
     } on DioError catch (e) {
-      // Handle Dio errors here (e.g., network error, timeout, etc.)
       return false;
     }
   }
@@ -59,7 +57,6 @@ class FeedRepository {
         print(response.data['posts']);
         return futurePosts;
       } else {
-        // Handle error based on response status code
         return false;
       }
     } catch (e) {
@@ -74,24 +71,19 @@ class FeedRepository {
         data: jsonEncode(data),
         options: Options(
           validateStatus: (status) {
-            return status! >= 200 &&
-                status < 500; // Adjust based on your server's behavior
+            return status! >= 200 && status < 500;
           },
         ),
       );
 
       if (response.statusCode == 201 || response.statusCode == 200) {
-        // Successful post creation
         print("Post created successfully");
-        // You might want to return some response data or a success indicator
         return true;
       } else {
-        // Handle error based on response status code
         print("Failed to create post: ${response.statusCode}");
         return false;
       }
     } on DioError catch (e) {
-      // Handle Dio errors here (e.g., network error, timeout, etc.)
       print("Dio error: $e");
       return false;
     }
@@ -101,20 +93,15 @@ class FeedRepository {
     List<Comment> comments = [];
     final Map<String, dynamic> data = {
       'post_id': postId,
-      // Set the user's email
     };
     try {
       print(data);
       final response = await _dioClient.get(
         Endpoints.getCmt,
-        // queryParameters: {
-        //   'post_id': postId,
-        // },
         data: jsonEncode(data),
         options: Options(
           validateStatus: (status) {
-            return status! >= 200 &&
-                status < 500; // Adjust based on your server's behavior
+            return status! >= 200 && status < 500;
           },
         ),
       );
@@ -125,7 +112,7 @@ class FeedRepository {
         if (responseData != null && responseData is List) {
           try {
             comments.addAll(
-              (responseData as List).map(
+              (responseData).map(
                 (comment) => Comment.fromJson(comment),
               ),
             );
@@ -134,17 +121,15 @@ class FeedRepository {
           }
         } else {
           print("Response data is not in the expected format or is null.");
-          return []; // Return an empty list if the data is not in the expected format or is null
+          return [];
         }
 
-        return comments;
+        return comments.reversed.toList();
       } else {
-        // Handle error based on response status code
         print("Failed to get comments: ${response.statusCode}");
         return [];
       }
     } catch (e) {
-      // Handle Dio errors here (e.g., network error, timeout, etc.)
       print("Dio error: $e");
       return [];
     }
@@ -158,24 +143,20 @@ class FeedRepository {
         data: jsonEncode(data),
         options: Options(
           validateStatus: (status) {
-            return status! >= 200 &&
-                status < 500; // Adjust based on your server's behavior
+            return status! >= 200 && status < 500;
           },
         ),
       );
       print("object1");
       if (response.statusCode == 201 || response.statusCode == 200) {
-        // Successful comment creation
         print("Comment created successfully");
-        // You might want to return some response data or a success indicator
+
         return true;
       } else {
-        // Handle error based on response status code
         print("Failed to create comment: ${response.statusCode}");
         return false;
       }
     } on DioError catch (e) {
-      // Handle Dio errors here (e.g., network error, timeout, etc.)
       print("Dio error: $e");
       return false;
     }
