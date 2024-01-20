@@ -69,11 +69,58 @@ class _PostContainerState extends State<PostContainer> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(
-                      widget.post.postBy.toString(),
-                      style: GoogleFonts.roboto(
-                          fontSize: 20.0, fontWeight: FontWeight.bold),
+                    Row(
+                      children: [
+                        const CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                "https://source.unsplash.com/random/900x700/?fruit")),
+                        const Gap(4),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.post.postBy.toString(),
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16.0, fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  top: 1, bottom: 1, left: 4, right: 4),
+                              decoration: BoxDecoration(
+                                  color: getRandomLightColor().withOpacity(0.7),
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Text(
+                                widget.post.tag.toString(),
+                                style: GoogleFonts.acme(
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: -0.1,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
+                    if (widget.post.image.toString().isNotEmpty)
+                      Container(
+                        width: double.maxFinite,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              formattedUrl,
+                              //    "https://source.unsplash.com/random/900x700/?fruit"),
+                            ),
+                            fit: BoxFit.fitWidth,
+                            onError: (exception, stackTrace) {
+                              // Handle image loading errors
+                              print("Error loading image: $exception");
+                            },
+                          ),
+                        ),
+                      ),
                     Text(
                       widget.post.description.toString(),
                       style: GoogleFonts.acme(
@@ -83,24 +130,6 @@ class _PostContainerState extends State<PostContainer> {
                         color: AppTheme.darkText,
                       ),
                     ),
-                    if (widget.post.image.toString().isNotEmpty)
-                      Container(
-                        height: 350,
-                        width: double.maxFinite,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                "https://source.unsplash.com/random/900x700/?fruit"),
-                            fit: BoxFit.fitWidth,
-                            onError: (exception, stackTrace) {
-                              // Handle image loading errors
-                              print("Error loading image: $exception");
-                            },
-                          ),
-                        ),
-                      ),
-                    const Text("Tags"),
                   ]),
             ),
             Container(
@@ -146,7 +175,7 @@ class _PostContainerState extends State<PostContainer> {
                   ),
                   Text(
                     //formatTimeAgo("s"),
-                    "4",
+                    "2024/01/20",
                     style: GoogleFonts.roboto(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w400,

@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:zero/Bloc/Auth/auth_bloc.dart';
 import 'package:zero/Bloc/Auth/auth_event.dart';
 import 'package:zero/Cubit/Page_state/page_state_cubit.dart';
+import 'package:zero/Screen/Layout/test.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -100,6 +101,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             email: usernameController.text,
                             password: passwordController.text),
                       );
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return layout();
+                      }));
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.black,
@@ -125,8 +130,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     const Gap(5),
                     TextButton(
                       onPressed: () {
-                        BlocProvider.of<PageStateCubit>(context).emit(
-                            PageStateRegister()); // Update the state to PageStateRegister
+                        BlocProvider.of<PageStateCubit>(context)
+                            .emit(PageStateRegister());
+
+                        // Update the state to PageStateRegister
                       },
                       child: const Text(
                         'Sign up',

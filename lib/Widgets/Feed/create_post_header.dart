@@ -16,8 +16,6 @@ class CreatePostHeader extends StatefulWidget {
 }
 
 class _CreatePostHeaderState extends State<CreatePostHeader> {
- 
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,9 +49,9 @@ class _CreatePostHeaderState extends State<CreatePostHeader> {
                       title: Text(
                         'Create Post',
                         style: GoogleFonts.roboto(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
                       ),
                       content: CreatePost(),
                     ),
@@ -62,7 +60,7 @@ class _CreatePostHeaderState extends State<CreatePostHeader> {
               );
             },
             child: Container(
-              width: MediaQuery.of(context).size.width * 0.5,
+              width: MediaQuery.of(context).size.width * 0.4,
               height: 40,
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(15)),

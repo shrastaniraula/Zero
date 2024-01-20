@@ -11,7 +11,7 @@ class CircularSlide extends StatefulWidget {
 }
 
 class _CircularSlideState extends State<CircularSlide> {
-  double value = 0;
+  double value = 0.0;
   @override
   Widget build(BuildContext context) {
     return CircularSlider(
@@ -33,13 +33,13 @@ class _CircularSlideState extends State<CircularSlide> {
       radius: 80,
       child: Text(
         value.toString(),
-        style: TextStyle(fontSize: 30),
+        style: const TextStyle(fontSize: 30),
       ),
-      color: Color.fromARGB(255, 255, 251, 251),
-      sliderColor: Color.fromARGB(255, 134, 239, 255),
-      unSelectedColor: Color.fromARGB(255, 232, 242, 255),
+      color: const Color.fromARGB(255, 255, 251, 251),
+      sliderColor: const Color.fromARGB(255, 134, 239, 255),
+      unSelectedColor: const Color.fromARGB(255, 232, 242, 255),
       onDrag: (value) {
-        widget.setValue(value as double);
+        widget.setValue(value.toDouble());
         setState(() {
           this.value = value.toDouble();
         });
