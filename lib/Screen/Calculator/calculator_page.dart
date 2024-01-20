@@ -104,7 +104,7 @@ class _CarbonFootprintCalculatorState extends State<CarbonFootprintCalculator> {
                 color: Colors.white,
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                      color: const Color.fromARGB(255, 185, 185, 185),
+                      color:  Color.fromARGB(255, 185, 185, 185),
                       offset: Offset(1, 1),
                       blurRadius: 5.0),
                 ],
