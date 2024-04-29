@@ -18,7 +18,7 @@ class _CodeLintState extends State<CodeLint> {
 
   // Replace this URL with your actual API endpoint
   static const String apiEndpoint =
-      'http://192.168.18.122:3000/measurePerformance';
+      'http://192.168.85.194:3000/measurePerformance';
 
   // Function to handle sending a message
   void _sendMessage() async {
